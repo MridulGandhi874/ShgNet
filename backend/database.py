@@ -39,3 +39,4 @@ def login_user(identifier, password):
         else:
             return {"message": "OTP not verified"}, 401
     return {"error": "Invalid credentials"}, 401
+
