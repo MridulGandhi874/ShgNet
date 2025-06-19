@@ -1,37 +1,54 @@
-import React, {useState} from 'react'
+import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "./styles/AuthDragon.css";
 
-export default function LoginForm() {
-  const [isLogin, setIsLogin] = useState(true);
+export default function LoginForm({ onLogin, switchToRegister }) {
+  const [form, setForm] = useState({ identifier: "", password: "" });
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!form.identifier || !form.password) {
+      toast.error("Please fill out all fields.");
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5000/login", form);
+      toast.success(res.data.message || "Login successful!");
+      onLogin(res.data.user);
+    } catch (err) {
+      const msg =
+        err.response?.data?.message || "Something went wrong during login.";
+      toast.error(msg);
+    }
+  };
+
   return (
-    <div className='container'>
-      <div className='form-container'>
-        <div className='form-toggle'>
-          <button className={isLogin ? 'active' : ""} onClick={() => setIsLogin
-            (true)}>Login</button>
-          <button className={!isLogin ? 'actve' : ""} onClick={() => setIsLogin
-            (false)}>SignUp</button>
-        </div>
-        {isLogin ? <>
-        <div className='form'>
-          <h2>Login Form</h2>
-          <input type= 'email' placeholder= 'Email'/>
-          <input type= 'password' placeholder= 'Password'/>
-          <a href= '#'>Forgot Password?</a>
-          <button>Login</button>
-          <p>Not a Member?<a href= '#'>Signup now</a></p>
-          </div>
-          </> : <>
-          <div className= 'form'>
-          <h2>SignupForm</h2>
-              <input type='email' placeholder= 'Email'/>
-              <input type='password' placeholder= 'Password'/>
-              <input type= 'password' placeholder= 'Change Password'/>
-              <button>SignUp</button>
-              </div>
-          </>}
-        </div>
-    </div> 
+    <div className="auth-box">
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <input
+          type="text"
+          placeholder="Email or Mobile"
+          value={form.identifier}
+          onChange={(e) => setForm({ ...form, identifier: e.target.value })}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+        />
+        <button type="submit">Login</button>
+      </form>
+      <div className="switch-link">
+        Don't have an account?{" "}
+        <button type="button" onClick={switchToRegister}>
+          Register
+        </button>
+      </div>
+    </div>
   );
 }
-
-

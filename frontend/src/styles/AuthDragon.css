@@ -1,0 +1,82 @@
+/* BODY: Dragonfruit-inspired gradient + textured background */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(
+      135deg,
+      #d43f8d 0%,
+      #b0eacb 50%,
+      #a7ddb4 100%
+    ),
+    url("https://www.transparenttextures.com/patterns/cubes.png");
+  background-repeat: repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  color: #f2f2f2;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* AUTH BOX: centered white box with shadow */
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #333;
+}
+
+/* Heading */
+.auth-box h2 {
+  margin-bottom: 1.5rem;
+  color: #d43f8d;
+}
+
+/* Inputs and select */
+.auth-box input,
+.auth-box select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* Gradient button */
+.auth-box button {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(90deg, #d43f8d, #2e8b57);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.auth-box button:hover {
+  background: linear-gradient(90deg, #c1277e, #1f6b43);
+}
+
+/* Switch to login/register text link */
+.switch-link {
+  margin-top: 1rem;
+  font-size: 14px;
+  color: #555;
+}
+
+.switch-link button {
+  background: none;
+  border: none;
+  color: #d43f8d;
+  font-weight: bold;
+  cursor: pointer;
+}
