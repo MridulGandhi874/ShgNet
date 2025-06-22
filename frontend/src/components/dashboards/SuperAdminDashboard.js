@@ -1,29 +1,36 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/DashboardDragon.css";
 
-export default function SuperAdminDashboard({ user }) {
+export default function SuperAdminDashboard({ username, logout }) {
+  const navigate = useNavigate();
+
   return (
     <div className="dashboard">
-      <h1>Welcome, {user.username} (Super Admin)</h1>
+      <h1 className="center-title">Welcome, {username} (Super Admin)</h1>
 
       <div className="dashboard-grid">
-        <div className="dashboard-card">
+        <div className="dashboard-card" onClick={() => navigate("/manage-ngo-admins")}>
           <h3>Manage NGO Admins</h3>
-          <p>Add, view, and remove regional coordinators.</p>
+          <p>View and remove NGO Admin accounts.</p>
         </div>
-        <div className="dashboard-card">
-          <h3>View Reports</h3>
-          <p>Access SHG performance, funding analytics and state-wide data.</p>
+        <div className="dashboard-card" onClick={() => navigate("/manage-shg-leaders")}>
+          <h3>Manage SHG Leaders</h3>
+          <p>View and manage SHG Leader accounts.</p>
         </div>
-        <div className="dashboard-card">
-          <h3>Approve Local Events</h3>
-          <p>Approve health camps, skill training, and other programs.</p>
+        <div className="dashboard-card" onClick={() => navigate("/restore-deleted-admins")}>
+          <h3>Restore Deleted NGO Admins</h3>
+          <p>Restore access to previously removed NGO Admins.</p>
         </div>
-        <div className="dashboard-card">
-          <h3>Set AI Rules</h3>
-          <p>Define custom AI filters for fund allocation and prioritization.</p>
+        <div className="dashboard-card" onClick={() => navigate("/restore-deleted-leaders")}>
+          <h3>Restore Deleted SHG Leaders</h3>
+          <p>Restore access to previously removed SHG Leaders.</p>
         </div>
       </div>
+
+      <button className="logout-button" onClick={logout}>
+        Logout
+      </button>
     </div>
   );
 }

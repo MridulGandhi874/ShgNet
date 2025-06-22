@@ -1,4 +1,3 @@
-// RegisterForm.js
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -9,31 +8,25 @@ export default function RegisterForm({ switchToLogin }) {
     username: "",
     identifier: "",
     password: "",
-    category: "",
+    role: "", // single selected role
   });
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
-    // ✅ Form field validation (Frontend)
-    if (!form.username || !form.identifier || !form.password || !form.category) {
-      toast.error("Please fill out all fields.");
-      return;
-    }
-
-    if (form.password.length < 6) {
-      toast.error("Password must be at least 6 characters long.");
+    if (!form.username || !form.identifier || !form.password || !form.role) {
+      toast.error("Please fill out all fields and select a role.");
       return;
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/register", form);
+      const res = await axios.post("http://localhost:5000/register", {
+        ...form,
+        roles: [form.role], // backend expects an array
+      });
       toast.success(res.data.message);
       switchToLogin();
     } catch (err) {
-      console.log("Registration error:", err.response);
-      const msg = err.response?.data?.message || "Registration failed.";
-      toast.error(msg);
+      toast.error(err.response?.data?.message || "Registration failed.");
     }
   };
 
@@ -63,8 +56,8 @@ export default function RegisterForm({ switchToLogin }) {
           required
         />
         <select
-          value={form.category}
-          onChange={(e) => setForm({ ...form, category: e.target.value })}
+          value={form.role}
+          onChange={(e) => setForm({ ...form, role: e.target.value })}
           required
         >
           <option value="">Select Role</option>
@@ -76,7 +69,9 @@ export default function RegisterForm({ switchToLogin }) {
       </form>
       <div className="switch-link">
         Already have an account?{" "}
-        <button onClick={switchToLogin}>Login</button>
+        <button type="button" onClick={switchToLogin}>
+          Login
+        </button>
       </div>
     </div>
   );
